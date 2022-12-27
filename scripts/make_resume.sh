@@ -22,28 +22,13 @@ cd - > /dev/null
 
 . "$repo_dir/scripts/base.sh"
 [ ! $? -eq 0 ] && echo -e "Error src-ing $repo's base" >&2 && return 1
+unset repo repo_dir
 
 # ----------
 # Get firstClass
 # ----------
-repo=firstClass
-repo_dir="$git_dir/$repo"
-
-if [ ! -d "$repo_dir" ]; then
-	cd "$git_dir"
-	git clone https://github.com/pllittle/$repo.git >&2
-	[ ! $? -eq 0 ] && echo -e "Error cloning $repo" >&2 && return 1
-else
-	cd "$repo_dir"
-	git pull >&2
-	[ ! $? -eq 0 ] && echo -e "Error pulling $repo" >&2 && return 1
-fi
-cd - > /dev/null
-
-# ----------
-# Reset
-# ----------
-unset repo repo_dir
+getRepoSrc -r firstClass -u pllittle
+[ ! $? -eq 0 ] && echo "Error src-ing" >&2 && return 1
 
 # ----------
 # Check latexmk is on PATH
