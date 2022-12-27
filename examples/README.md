@@ -20,6 +20,7 @@ directory. Run the following script/steps.
 
 ```Shell
 # Source bash script
+unset srcPL_resume
 . scripts/make_resume.sh
 [ ! $? -eq 0 ] && echo "Error src-ing make_resume.sh" >&2 \
 	&& return 1
@@ -34,7 +35,7 @@ out_dir="$tmp_dir/output"
 make_resumeTex \
 	--compile \
 	-o "$out_dir" \
-	--name "FirstName LastName, Degree" \
+	--name "First Last, Degree" \
 	--email abc@def.com \
 	--github username \
 	--location "City, State" \
@@ -56,7 +57,9 @@ make_resumeTex \
 ```
 
 Check out the [constructed TEX file](output/resume.tex) 
-and [PDF output](output/resume.pdf).
+and [output PDF](output/resume.pdf). To compile the TEX 
+file in your favorite TEX editor, export the directory 
+containing the class file aka `Shell export TEXINPUTS="$repo_dir/files"`).
 
 </details>
 
