@@ -58,13 +58,15 @@ make_resumeTex \
 
 Check out the [constructed TEX file](output/resume.tex) 
 and [output PDF](output/resume.pdf). To compile the TEX 
-file in your favorite TEX editor outside of calling 
-`make_resumeTex`, export the directory containing the 
-class file such as
+file in your favorite TEX editor outside of calling the 
+repo's internal function `make_resumeTex`, export the 
+directory containing the class file such as
 
 ```Shell
 export TEXINPUTS="$repo_dir/files"
 ```
+
+and proceed to compile.
 
 </details>
 
