@@ -1,5 +1,10 @@
 # Examples
 
+## Table of Contents
+
+* [Industry Resume](#IRES)
+* [Beamer Slides](#BEAM)
+
 ## <a href="#IRES" name="IRES">Industry Resume</a>
 
 * Input tex files are under the current directory
@@ -43,3 +48,7 @@ make_resumeTex \
 	--courses_fn "$tmp_dir/courses.tex"
 
 ```
+
+## <a href="#BEAM" name="BEAM">Beamer Slides</a>
+
+Incomplete
