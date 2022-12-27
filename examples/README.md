@@ -1,6 +1,6 @@
 # Examples
 
-## Industry Resume
+## <a href="#IRES" name="IRES">Industry Resume</a>
 
 * Input tex files are under the current directory
 * Dependencies: TexLive (MikTeX) aka software containing 
@@ -17,12 +17,15 @@ directory. Run the following script/steps.
 # Set some inputs
 repo_dir="$git_dir/firstClass"
 tmp_dir="$repo_dir/examples"
-desk_dir="$HOME/Desktop"
+
+# customize this variable if you like
+out_dir="$HOME/Downloads"
+[ ! -d "$out_dir" ] && mkdir "$out_dir"
 
 # Compile contents
 make_resumeTex \
 	--compile \
-	-o "$desk_dir/myresume" \
+	-o "$out_dir/myresume" \
 	--name "FirstName LastName, PhD" \
 	--email abc@def.com \
 	--github username \
