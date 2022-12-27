@@ -12,12 +12,12 @@
 	`pdflatex` or `latexmk`
 * Execution
 
-In your favorite terminal, navigate to `firstClass` 
+In your favorite linux terminal, navigate to `firstClass` 
 directory. Run the following script/steps.
 
 ```Shell
 # Source bash script
-. make_resume.sh
+. scripts/make_resume.sh
 
 # Set some inputs
 repo_dir="$git_dir/firstClass"
