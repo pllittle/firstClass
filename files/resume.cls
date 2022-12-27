@@ -38,6 +38,8 @@
 % Bullet points
 %\RequirePackage[inline]{enumitem}
 \setlength{\tabcolsep}{0in}
+% Multicols
+\RequirePackage{multicol}
 
 % ##################################
 % Make resume header
@@ -47,7 +49,7 @@
 
 % Left Header
 \lhead{
-\textbf{Contact Info}
+\faIcon[regular]{address-card} \textbf{Contact Info}
 \ifx \MyPhone \undefined \\ \hl{PhoneNum} \else \\ {\color{green}\faIcon{phone-square-alt}} \MyPhone\fi
 \ifx \MyLocation \undefined \\ \hl{City, State} \else \\ {\color{red}\faIcon{map-marker-alt}} \MyLocation\fi
 \ifx \MyEmail \undefined \\ \hl{abc\_def@ghi.com} \else \\ {\color{cyan}\faIcon{at}} \href{mailto:\MyEmail}{\MyEmail}\fi}
