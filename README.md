@@ -3,6 +3,11 @@
 Welcome to firstClass! This repo is a growing collection of LaTeX 
 classes and scripts to automate compilation.
 
+## Dependencies
+
+* [MiKTeX](https://miktex.org/)
+* Unix terminal/environment: Git Bash, Terminal, Putty, etc
+
 ## Features
 
 **Industry Resume**: Are you tired of starting from scratch when 
