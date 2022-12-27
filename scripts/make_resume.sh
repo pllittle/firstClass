@@ -2,7 +2,6 @@
 
 [ ! -z "$srcPL_resume" ] && [ $srcPL_resume -eq 1 ] && return 0
 [ -z "$git_dir" ] && git_dir=$(cd $(dirname $BASH_SOURCE)/../..; pwd)
-orig_dir=$(pwd)
 
 # ----------
 # Get baSHic
@@ -19,8 +18,9 @@ else
 	git pull >&2
 	[ ! $? -eq 0 ] && echo -e "Error pulling $repo" >&2 && return 1
 fi
+cd - > /dev/null
 
-. "$repo_dir"/scripts/base.sh
+. "$repo_dir/scripts/base.sh"
 [ ! $? -eq 0 ] && echo -e "Error src-ing $repo's base" >&2 && return 1
 
 # ----------
@@ -38,12 +38,12 @@ else
 	git pull >&2
 	[ ! $? -eq 0 ] && echo -e "Error pulling $repo" >&2 && return 1
 fi
+cd - > /dev/null
 
 # ----------
 # Reset
 # ----------
-cd "$orig_dir"
-unset orig_dir repo repo_dir
+unset repo repo_dir
 
 # ----------
 # Check latexmk is on PATH
@@ -85,7 +85,8 @@ make_resumeTex(){
 	local out_dir label_fn res_fn class_fn class_dir
 	local name email location phone position
 	local github linkedin orcid
-	local educate_fn exper_fn objective_fn publish_fn skills_fn
+	local educate_fn exper_fn objective_fn publish_fn 
+	local skills_fn courses_fn
 	local resp cmd compile nAdd
 	
 	compile=0; nAdd=0
@@ -98,6 +99,10 @@ make_resumeTex(){
 				;;
 			--compile )
 				compile=1
+				;;
+			--courses_fn )
+				shift
+				courses_fn="$1"
 				;;
 			--educate_fn )
 				shift
@@ -192,6 +197,7 @@ make_resumeTex(){
 		make_menu -c "$yellow" -p "Path to a latex filename with education?"
 		read resp
 		[ -z "$resp" ] && print_noInput && continue
+		resp=$(echo -e $resp)
 		[ ! -f "$resp" ] && echo -e "$resp missing" >&2 && continue
 		educate_fn="$resp"
 	done
@@ -203,7 +209,7 @@ make_resumeTex(){
 		exper_fn="$resp"
 	done
 	while [ -z "$name" ]; do
-		make_menu -c "$yellow" -p "What is your name? Enclose your input with quotation marks (e.g. 'John Doe' or 'Jane Doe, PhD')"
+		make_menu -c "$yellow" -p "What is your name? (e.g. John Doe or Jane Doe, PhD)"
 		read resp
 		[ -z "$resp" ] && print_noInput && continue
 		name="$resp"
@@ -221,6 +227,7 @@ make_resumeTex(){
 	[ ! -z "$objective_fn" ] 	&& [ ! -f "$objective_fn" ] && echo -e "$objective_fn missing" >&2 && return 1
 	[ ! -z "$publish_fn" ] 		&& [ ! -f "$publish_fn" ] 	&& echo -e "$publish_fn missing" >&2 && return 1
 	[ ! -z "$skills_fn" ] 		&& [ ! -f "$skills_fn" ] 		&& echo -e "$skills_fn missing" >&2 && return 1
+	[ ! -z "$courses_fn" ] 		&& [ ! -f "$courses_fn" ] 	&& echo -e "$courses_fn missing" >&2 && return 1
 	
 	# Write resume.tex file
 	res_fn="$out_dir/$label_fn.tex"
@@ -256,6 +263,10 @@ make_resumeTex(){
 		&& let nAdd=nAdd+1 \
 		&& cp "$publish_fn" "$out_dir/sections/publications.tex" \
 		&& echo -e "\\input{sections/publications}\n" >> "$res_fn"
+	[ ! -z "$courses_fn" ] \
+		&& let nAdd=nAdd+1 \
+		&& cp "$courses_fn" "$out_dir/sections/courses.tex" \
+		&& echo -e "\\input{sections/courses}\n" >> "$res_fn"
 	
 	[ $nAdd -eq 0 ] \
 		&& echo -e "Hi world\n" >> "$res_fn" \
