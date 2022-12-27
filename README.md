@@ -1,6 +1,7 @@
 # firstClass
 
-A growing collection of LaTeX classes and scripts to automate compilation.
+Welcome to firstClass! This repo is a growing collection of LaTeX 
+classes and scripts to automate compilation.
 
 ## Features
 
