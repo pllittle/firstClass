@@ -2,10 +2,10 @@
 
 ## Table of Contents
 
-* [Industry Resume](#IRES)
-* [Beamer Slides](#BEAM)
+* [Industry Resume](#industry-resume)
+* [Beamer Slides](#beamer-slides)
 
-## <a id="IRES">Industry Resume</a>
+## Industry Resume
 
 * Input tex files are under the current directory
 * Dependencies: TexLive (MikTeX) aka software containing 
@@ -49,6 +49,6 @@ make_resumeTex \
 
 ```
 
-## <a href="#BEAM" name="BEAM" id="BEAM">Beamer Slides</a>
+## Beamer Slides
 
 Incomplete
