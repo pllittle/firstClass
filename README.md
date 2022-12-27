@@ -9,7 +9,8 @@ creating personalized resumes per company or institution? What if
 one could modularize a resume's contents?
 
 * [Script](scripts/make_resume.sh)
-* [Example](examples/README.md#industry-resume) Add output
+* [Snapshot](examples/output/resume.pdf)
+* [Example](examples/README.md#industry-resume)
 
 ## Links
 
