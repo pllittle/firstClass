@@ -21,6 +21,8 @@ directory. Run the following script/steps.
 ```Shell
 # Source bash script
 . scripts/make_resume.sh
+[ ! $? -eq 0 ] && echo "Error src-ing make_resume.sh" >&2 \
+	&& return 1
 
 # Set some inputs
 repo_dir="$git_dir/firstClass"
@@ -41,7 +43,7 @@ make_resumeTex \
 	--position "Job Position" \
 	--phone 123-456-7890 \
 	--linkedin username \
-	--orcid 0000-0002-9789-8501 \
+	--orcid 0000-0000-0000-0000 \
 	--class_fn "$repo_dir/files/resume.cls" \
 	--educate_fn "$tmp_dir/education.tex" \
 	--exper_fn "$tmp_dir/experience.tex" \
@@ -49,6 +51,9 @@ make_resumeTex \
 	--publish_fn "$tmp_dir/publications.tex" \
 	--skills_fn "$tmp_dir/skills.tex" \
 	--courses_fn "$tmp_dir/courses.tex"
+
+[ ! $? -eq 0 ] && echo "Error in make_resumeTex" >&2 \
+	&& return 1
 
 ```
 
