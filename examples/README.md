@@ -49,6 +49,6 @@ make_resumeTex \
 
 ```
 
-## <span id="BEAM">Beamer Slides</span>
+## <a href="#BEAM" name="BEAM" id="BEAM">Beamer Slides</a>
 
 Incomplete
