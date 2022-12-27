@@ -5,7 +5,7 @@
 * [Industry Resume](#IRES)
 * [Beamer Slides](#BEAM)
 
-## <a name="IRES">Industry Resume</a>
+## <a href="#IRES" name="IRES">Industry Resume</a>
 
 * Input tex files are under the current directory
 * Dependencies: TexLive (MikTeX) aka software containing 
@@ -49,6 +49,6 @@ make_resumeTex \
 
 ```
 
-## <a name="BEAM">Beamer Slides</a>
+## <a href="#BEAM" name="BEAM">Beamer Slides</a>
 
 Incomplete
