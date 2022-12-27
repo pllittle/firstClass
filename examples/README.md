@@ -27,16 +27,14 @@ directory. Run the following script/steps.
 # Set some inputs
 repo_dir="$git_dir/firstClass"
 tmp_dir="$repo_dir/examples"
-
-# customize this variable if you like
-out_dir="$HOME/Downloads"
+out_dir="$tmp_dir/output"
 [ ! -d "$out_dir" ] && mkdir "$out_dir"
 
 # Compile contents
 make_resumeTex \
 	--compile \
-	-o "$out_dir/myresume" \
-	--name "FirstName LastName, PhD" \
+	-o "$out_dir" \
+	--name "FirstName LastName, Degree" \
 	--email abc@def.com \
 	--github username \
 	--location "City, State" \
@@ -56,6 +54,9 @@ make_resumeTex \
 	&& return 1
 
 ```
+
+Check out the [constructed TEX file](output/resume.tex) 
+and [PDF output](output/resume.pdf).
 
 </details>
 
