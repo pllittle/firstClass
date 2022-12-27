@@ -7,6 +7,9 @@
 
 ## Industry Resume
 
+<details>
+<summary>Click to expand!</summary>
+
 * Input tex files are under the current directory
 * Dependencies: TexLive (MikTeX) aka software containing 
 	`pdflatex` or `latexmk`
@@ -48,6 +51,8 @@ make_resumeTex \
 	--courses_fn "$tmp_dir/courses.tex"
 
 ```
+
+</details>
 
 ## Beamer Slides
 
