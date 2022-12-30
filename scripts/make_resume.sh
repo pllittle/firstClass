@@ -71,7 +71,7 @@ make_resumeTex(){
 	local name email location phone position
 	local github linkedin orcid
 	local educate_fn exper_fn objective_fn publish_fn 
-	local skills_fn courses_fn
+	local skills_fn courses_fn present_fn
 	local resp cmd compile nAdd
 	
 	compile=0; nAdd=0
@@ -140,6 +140,10 @@ make_resumeTex(){
 			--position )
 				shift
 				position="$1"
+				;;
+			--present_fn )
+				shift
+				present_fn="$1"
 				;;
 			--publish_fn )
 				shift
@@ -213,6 +217,7 @@ make_resumeTex(){
 	[ ! -z "$publish_fn" ] 		&& [ ! -f "$publish_fn" ] 	&& echo -e "$publish_fn missing" >&2 && return 1
 	[ ! -z "$skills_fn" ] 		&& [ ! -f "$skills_fn" ] 		&& echo -e "$skills_fn missing" >&2 && return 1
 	[ ! -z "$courses_fn" ] 		&& [ ! -f "$courses_fn" ] 	&& echo -e "$courses_fn missing" >&2 && return 1
+	[ ! -z "$present_fn" ]		&& [ ! -f "$present_fn" ]		&& echo -e "$present_fn missing" >&2 && return 1
 	
 	# Write resume.tex file
 	res_fn="$out_dir/$label_fn.tex"
@@ -252,6 +257,10 @@ make_resumeTex(){
 		&& let nAdd=nAdd+1 \
 		&& cp "$courses_fn" "$out_dir/sections/courses.tex" \
 		&& echo -e "\\input{sections/courses}\n" >> "$res_fn"
+	[ ! -z "$present_fn" ] \
+		&& let nAdd=nAdd+1 \
+		&& cp "$present_fn" "$out_dir/sections/present.tex" \
+		&& echo -e "\\input{sections/present}\n" >> "$res_fn"
 	
 	[ $nAdd -eq 0 ] \
 		&& echo -e "Hi world\n" >> "$res_fn" \
