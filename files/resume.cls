@@ -40,6 +40,8 @@
 \setlength{\tabcolsep}{0in}
 % Multicols
 \RequirePackage{multicol}
+% Multirows
+\RequirePackage{multirow}
 
 % ##################################
 % Make resume header
