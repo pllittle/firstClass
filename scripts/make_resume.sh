@@ -31,13 +31,20 @@ getRepoSrc -r firstClass -u pllittle
 [ ! $? -eq 0 ] && echo "Error src-ing" >&2 && return 1
 
 # ----------
-# Check latexmk is on PATH
+# Check commands are on PATH
 # ----------
-[ -z "$chk_latexmk" ] \
-	&& chk_latexmk=$(which latexmk &> /dev/null; echo $?)
-[ ! $chk_latexmk -eq 0 ] \
-	&& echo "latexmk command not found" >&2 \
-	&& return 1
+
+for CMD in realpath latexmk; do
+	
+	unset chk
+	[ -z "$chk" ] && chk=$(which ${CMD} &> /dev/null; echo $?)
+	
+	[ ! $chk -eq 0 ] \
+		&& echo -e "'$CMD' command not found" >&2 \
+		&& return 1
+	
+	
+done
 
 # ----------
 # Functions
