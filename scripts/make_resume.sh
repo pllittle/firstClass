@@ -6,23 +6,30 @@
 # ----------
 # Get baSHic
 # ----------
-repo=baSHic
-repo_dir="$git_dir/$repo"
+get_baSHic(){
+	local repo repo_dir
+	
+	repo=baSHic
+	repo_dir="$git_dir/$repo"
 
-if [ ! -d "$repo_dir" ]; then
-	cd "$git_dir"
-	git clone https://github.com/pllittle/$repo.git >&2
-	[ ! $? -eq 0 ] && echo -e "Error cloning $repo" >&2 && return 1
-else
-	cd "$repo_dir"
-	git pull >&2
-	[ ! $? -eq 0 ] && echo -e "Error pulling $repo" >&2 && return 1
-fi
-cd - > /dev/null
+	if [ ! -d "$repo_dir" ]; then
+		cd "$git_dir"
+		git clone https://github.com/pllittle/$repo.git >&2
+		[ ! $? -eq 0 ] && echo -e "Error cloning $repo" >&2 && return 1
+	else
+		cd "$repo_dir"
+		git pull >&2
+		[ ! $? -eq 0 ] && echo -e "Error pulling $repo" >&2 && return 1
+	fi
+	cd - > /dev/null
 
-. "$repo_dir/scripts/base.sh"
-[ ! $? -eq 0 ] && echo -e "Error src-ing $repo's base" >&2 && return 1
-unset repo repo_dir
+	. "$repo_dir/scripts/base.sh"
+	[ ! $? -eq 0 ] && echo -e "Error src-ing $repo's base" >&2 && return 1
+	# unset repo repo_dir
+	
+}
+
+get_baSHic
 
 # ----------
 # Get firstClass
@@ -78,7 +85,7 @@ make_resumeTex(){
 	local name email location phone position
 	local github linkedin orcid
 	local educate_fn exper_fn objective_fn publish_fn 
-	local skills_fn courses_fn present_fn
+	local skills_fn courses_fn present_fn leader_fn
 	local resp cmd compile nAdd
 	
 	compile=0; nAdd=0
@@ -160,6 +167,10 @@ make_resumeTex(){
 				shift
 				skills_fn="$1"
 				;;
+			--leader_fn )
+				shift
+				leader_fn="$1"
+				;;
 			-* )
 				echo -e "Error: command line input ${red}$1${NC} is invalid" >&2 && return 1
 		esac
@@ -225,6 +236,7 @@ make_resumeTex(){
 	[ ! -z "$skills_fn" ] 		&& [ ! -f "$skills_fn" ] 		&& echo -e "$skills_fn missing" >&2 && return 1
 	[ ! -z "$courses_fn" ] 		&& [ ! -f "$courses_fn" ] 	&& echo -e "$courses_fn missing" >&2 && return 1
 	[ ! -z "$present_fn" ]		&& [ ! -f "$present_fn" ]		&& echo -e "$present_fn missing" >&2 && return 1
+	[ ! -z "$leader_fn" ]			&& [ ! -f "$leader_fn" ]		&& echo -e "$leader_fn missing" >&2 && return 1
 	
 	# Write resume.tex file
 	res_fn="$out_dir/$label_fn.tex"
@@ -268,6 +280,10 @@ make_resumeTex(){
 		&& let nAdd=nAdd+1 \
 		&& cp "$present_fn" "$out_dir/sections/present.tex" \
 		&& echo -e "\\input{sections/present}\n" >> "$res_fn"
+	[ ! -z "$leader_fn" ] \
+		&& let nAdd=nAdd+1 \
+		&& cp "$leader_fn" "$out_dir/sections/leadership.tex" \
+		&& echo -e "\\input{sections/leadership}\n" >> "$res_fn"
 	
 	[ $nAdd -eq 0 ] \
 		&& echo -e "Hi world\n" >> "$res_fn" \
@@ -292,7 +308,7 @@ make_resumeTex(){
 		[ ! $? -eq 0 ] && echo "Error in latexmk" >&2 && return 1
 		
 		cleanup_tex -o "$out_dir"
-		new_rm "$out_dir/sections"
+		# new_rm "$out_dir/sections"
 		[ ! -z "$TEXINPUTS" ] && unset TEXINPUTS
 		echo -e "PDF located at ${yellow}$out_dir${NC}/${green}$label_fn.pdf${NC}" >&2
 		

@@ -94,7 +94,7 @@
 % Subsection formatting
 \titlespacing*{\subsection}
 	{0em} % spacing to the left
-	{0em}	% spacing above
+	{0.75em}	% spacing above
 	{0em} % spacing below
 \titleformat{\subsection}
 	{\bfseries} % formatting:
