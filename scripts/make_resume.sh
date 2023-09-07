@@ -86,7 +86,7 @@ make_resumeTex(){
 	local github linkedin orcid
 	local educate_fn exper_fn objective_fn publish_fn 
 	local skills_fn courses_fn present_fn leader_fn
-	local resp cmd compile nAdd
+	local resp cmd compile nAdd n_pct n_miss keyw
 	
 	compile=0; nAdd=0
 	
@@ -254,32 +254,40 @@ make_resumeTex(){
 	
 	echo -e "\n\\\begin{document}\n" >> "$res_fn"
 	
+	# Objective/summary
 	[ ! -z "$objective_fn" ] \
 		&& let nAdd=nAdd+1 \
 		&& cp "$objective_fn" "$out_dir/sections/objective.tex" \
 		&& echo -e "\\input{sections/objective}\n" >> "$res_fn"
+	# Professional Experience
+	let nAdd=nAdd+1 \
+		&& cp "$exper_fn" "$out_dir/sections/experience.tex" \
+		&& echo -e "\\input{sections/experience}\n" >> "$res_fn"
+	# Education
+	let nAdd=nAdd+1 \
+		&& cp "$educate_fn" "$out_dir/sections/education.tex" \
+		&& echo -e "\\input{sections/education}\n" >> "$res_fn"
+	# Skills
 	[ ! -z "$skills_fn" ] \
 		&& let nAdd=nAdd+1 \
 		&& cp "$skills_fn" "$out_dir/sections/skills.tex" \
 		&& echo -e "\\input{sections/skills}\n" >> "$res_fn"
-	let nAdd=nAdd+1 \
-		&& cp "$exper_fn" "$out_dir/sections/experience.tex" \
-		&& echo -e "\\input{sections/experience}\n" >> "$res_fn"
-	let nAdd=nAdd+1 \
-		&& cp "$educate_fn" "$out_dir/sections/education.tex" \
-		&& echo -e "\\input{sections/education}\n" >> "$res_fn"
+	# Publications
 	[ ! -z "$publish_fn" ] \
 		&& let nAdd=nAdd+1 \
 		&& cp "$publish_fn" "$out_dir/sections/publications.tex" \
 		&& echo -e "\\input{sections/publications}\n" >> "$res_fn"
+	# Courses
 	[ ! -z "$courses_fn" ] \
 		&& let nAdd=nAdd+1 \
 		&& cp "$courses_fn" "$out_dir/sections/courses.tex" \
 		&& echo -e "\\input{sections/courses}\n" >> "$res_fn"
+	# Presentations
 	[ ! -z "$present_fn" ] \
 		&& let nAdd=nAdd+1 \
 		&& cp "$present_fn" "$out_dir/sections/present.tex" \
 		&& echo -e "\\input{sections/present}\n" >> "$res_fn"
+	# Leadership
 	[ ! -z "$leader_fn" ] \
 		&& let nAdd=nAdd+1 \
 		&& cp "$leader_fn" "$out_dir/sections/leadership.tex" \
@@ -292,6 +300,18 @@ make_resumeTex(){
 	echo -e "\\\end{document}\n" >> "$res_fn"
 	
 	echo -e "${green}$label_fn.tex${NC} finalized." >&2
+	
+	# Run check of % usage in experience section
+	n_pct=$(cat "$out_dir/sections/experience.tex" | grep -v "^%" \
+		| sed 's|\\%|pct|g' | grep "%" | wc -l)
+	[ $n_pct -gt 0 ] && echo -e "${yellow}Warning${NC}: Detected use of non-leading char '%' within latex, double check tex experience.tex!" >&2 && return 1
+	
+	# Check incomplete sections
+	for keyw in "hfill somewhere" "hfill MMM YYYY"; do
+		n_miss=$(cat "$out_dir/sections/experience.tex" | grep -v "^%" \
+			| grep "$keyw" | wc -l)
+		[ $n_miss -gt 0 ] && echo -e "${yellow}Warning${NC}: Detected incomplete entries (${cyan}${keyw}${NC}) within latex, double check tex experience.tex!" >&2 && return 1
+	done
 	
 	if [ $compile -eq 1 ]; then
 		echo -e "${yellow}Executing latexmk ...${NC}" >&2
