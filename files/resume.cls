@@ -107,12 +107,13 @@
 
 % ##################################
 % Education Style
-\newcommand{\educ}[4]{
+\newcommand{\educ}[2]{
 \ifx&#1& {\bfseries \hl{Degree in Department}}\else {\bfseries #1}\fi,
 \ifx&#2& \textit{\hl{Institution}}\else \textit{#2}\fi
-\hfill
-\ifx&#3& \hl{Month} \else #3 \fi
-\ifx&#4& \hl{Year}\else #4\fi}
+%\hfill
+%\ifx&#3& \hl{Month} \else #3 \fi
+%\ifx&#4& \hl{Year}\else #4\fi
+}
 
 % ##################################
 % Skills Style
