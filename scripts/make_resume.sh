@@ -85,7 +85,7 @@ make_resumeTex(){
 	local name email location phone position
 	local github linkedin orcid
 	local educate_fn exper_fn objective_fn publish_fn 
-	local skills_fn courses_fn present_fn leader_fn
+	local skills_fn courses_fn present_fn leader_fn proj_fn
 	local resp cmd compile nAdd n_pct n_miss keyw
 	
 	compile=0; nAdd=0
@@ -171,6 +171,10 @@ make_resumeTex(){
 				shift
 				leader_fn="$1"
 				;;
+			--proj_fn )
+				shift
+				proj_fn="$1"
+				;;
 			-* )
 				echo -e "Error: command line input ${red}$1${NC} is invalid" >&2 && return 1
 		esac
@@ -237,6 +241,7 @@ make_resumeTex(){
 	[ ! -z "$courses_fn" ] 		&& [ ! -f "$courses_fn" ] 	&& echo -e "$courses_fn missing" >&2 && return 1
 	[ ! -z "$present_fn" ]		&& [ ! -f "$present_fn" ]		&& echo -e "$present_fn missing" >&2 && return 1
 	[ ! -z "$leader_fn" ]			&& [ ! -f "$leader_fn" ]		&& echo -e "$leader_fn missing" >&2 && return 1
+	[ ! -z "$proj_fn" ]		&& [ ! -f "$proj_fn" ]		&& echo -e "$proj_fn missing" >&2 && return 1
 	
 	# Write resume.tex file
 	res_fn="$out_dir/$label_fn.tex"
@@ -259,6 +264,11 @@ make_resumeTex(){
 		&& let nAdd=nAdd+1 \
 		&& cp "$objective_fn" "$out_dir/sections/objective.tex" \
 		&& echo -e "\\input{sections/objective}\n" >> "$res_fn"
+	# Skills
+	[ ! -z "$skills_fn" ] \
+		&& let nAdd=nAdd+1 \
+		&& cp "$skills_fn" "$out_dir/sections/skills.tex" \
+		&& echo -e "\\input{sections/skills}\n" >> "$res_fn"
 	# Professional Experience
 	let nAdd=nAdd+1 \
 		&& cp "$exper_fn" "$out_dir/sections/experience.tex" \
@@ -267,11 +277,10 @@ make_resumeTex(){
 	let nAdd=nAdd+1 \
 		&& cp "$educate_fn" "$out_dir/sections/education.tex" \
 		&& echo -e "\\input{sections/education}\n" >> "$res_fn"
-	# Skills
-	[ ! -z "$skills_fn" ] \
-		&& let nAdd=nAdd+1 \
-		&& cp "$skills_fn" "$out_dir/sections/skills.tex" \
-		&& echo -e "\\input{sections/skills}\n" >> "$res_fn"
+	# Projects
+	let nAdd=nAdd+1 \
+		&& cp "$proj_fn" "$out_dir/sections/projects.tex" \
+		&& echo -e "\\input{sections/projects}\n" >> "$res_fn"
 	# Publications
 	[ ! -z "$publish_fn" ] \
 		&& let nAdd=nAdd+1 \

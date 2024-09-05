@@ -60,7 +60,8 @@
 \chead{
 \Huge{\ifx \MyName \undefined \hl{My Name} \else \MyName\fi} \\
 \vspace{0em} % some spacing below name
-\Large{\ifx \MyPosition \undefined \hl{Position} \else \MyPosition\fi}}
+\Large{\ifx \MyPosition \undefined \else \MyPosition\fi}
+}
 
 % Right Header
 \rhead{
