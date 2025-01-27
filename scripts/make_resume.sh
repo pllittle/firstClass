@@ -84,8 +84,8 @@ make_resumeTex(){
 	local out_dir label_fn res_fn class_fn class_dir
 	local name email location phone position
 	local github linkedin orcid
-	local educate_fn exper_fn objective_fn publish_fn 
-	local skills_fn courses_fn present_fn leader_fn proj_fn
+	local educate_fn exper_fn objective_fn publish_fn accomplish_fn
+	local software_fn skills_fn courses_fn present_fn leader_fn proj_fn
 	local resp cmd compile nAdd n_pct n_miss keyw
 	
 	compile=0; nAdd=0
@@ -163,6 +163,10 @@ make_resumeTex(){
 				shift
 				publish_fn="$1"
 				;;
+			--accomplish_fn )
+				shift
+				accomplish_fn="$1"
+				;;
 			--skills_fn )
 				shift
 				skills_fn="$1"
@@ -174,6 +178,10 @@ make_resumeTex(){
 			--proj_fn )
 				shift
 				proj_fn="$1"
+				;;
+			--software_fn )
+				shift
+				software_fn="$1"
 				;;
 			-* )
 				echo -e "Error: command line input ${red}$1${NC} is invalid" >&2 && return 1
@@ -241,7 +249,9 @@ make_resumeTex(){
 	[ ! -z "$courses_fn" ] 		&& [ ! -f "$courses_fn" ] 	&& echo -e "$courses_fn missing" >&2 && return 1
 	[ ! -z "$present_fn" ]		&& [ ! -f "$present_fn" ]		&& echo -e "$present_fn missing" >&2 && return 1
 	[ ! -z "$leader_fn" ]			&& [ ! -f "$leader_fn" ]		&& echo -e "$leader_fn missing" >&2 && return 1
-	[ ! -z "$proj_fn" ]		&& [ ! -f "$proj_fn" ]		&& echo -e "$proj_fn missing" >&2 && return 1
+	[ ! -z "$proj_fn" ]				&& [ ! -f "$proj_fn" ]			&& echo -e "$proj_fn missing" >&2 && return 1
+	[ ! -z "$accomplish_fn" ] && [ ! -f "$accomplish_fn" ] && echo -e "$accomplish_fn missing" >&2 && return 1
+	[ ! -z "$software_fn" ] 	&& [ ! -f "$software_fn" ] 	&& echo -e "$software_fn missing" >&2 && return 1
 	
 	# Write resume.tex file
 	res_fn="$out_dir/$label_fn.tex"
@@ -277,10 +287,20 @@ make_resumeTex(){
 	let nAdd=nAdd+1 \
 		&& cp "$educate_fn" "$out_dir/sections/education.tex" \
 		&& echo -e "\\input{sections/education}\n" >> "$res_fn"
+	# Accomplishments
+	[ ! -z "$accomplish_fn" ] \
+		&& let nAdd=nAdd+1 \
+		&& cp "$accomplish_fn" "$out_dir/sections/accomplishments.tex" \
+		&& echo -e "\\input{sections/accomplishments}\n" >> "$res_fn"
 	# Projects
 	let nAdd=nAdd+1 \
 		&& cp "$proj_fn" "$out_dir/sections/projects.tex" \
 		&& echo -e "\\input{sections/projects}\n" >> "$res_fn"
+	# Software
+	[ ! -z "$software_fn" ] \
+		&& let nAdd=nAdd+1 \
+		&& cp "$software_fn" "$out_dir/sections/software.tex" \
+		&& echo -e "\\input{sections/software}\n" >> "$res_fn"
 	# Publications
 	[ ! -z "$publish_fn" ] \
 		&& let nAdd=nAdd+1 \
